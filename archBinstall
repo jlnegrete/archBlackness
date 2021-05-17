@@ -131,12 +131,12 @@ then
 	#swapsize=$(free --giga | awk '/^Mem:/{print $2}')
 	swapsize=2
 	#dd if=/dev/zero of="${disco}" bs=4M conv=fsync oflag=direct status=progress
-	#(echo Ignore) | sgdisk --zap-all ${disco}
+	(echo Ignore) | sgdisk --zap-all ${disco}
 	#parted ${disco} mklabel gpt
-	#(echo 2; echo w; echo Y) | gdisk ${disco}
-	#sgdisk ${disco} -n=1:0:+100M -t=1:ef00
-	#sgdisk ${disco} -n=2:0:+${swapsize}G -t=2:8200
-	#sgdisk ${disco} -n=3:0:0
+	(echo 2; echo w; echo Y) | gdisk ${disco}
+	sgdisk ${disco} -n=1:0:+100M -t=1:ef00
+	sgdisk ${disco} -n=2:0:+${swapsize}G -t=2:8200
+	sgdisk ${disco} -n=3:0:+20G -t=3:8100
 	fdisk -l ${disco} > /tmp/partition
 	echo ""
 	cat /tmp/partition
@@ -278,7 +278,7 @@ clear
 echo ""
 echo "Instalando Sistema base"
 echo ""
-pacstrap /mnt base base-devel nano reflector python rsync
+pacstrap /mnt base base-devel vim reflector python rsync
 clear
 
 
@@ -507,9 +507,10 @@ case $escritorio in
     echo "Escritorio : Bspwm"
     sleep 3
     
-	arch-chroot /mnt /bin/bash -c "pacman -S xorg xorg-apps xorg-xinit xorg-twm xterm xorg-xclock --noconfirm"
+	arch-chroot /mnt /bin/bash -c "pacman -S xorg xorg-apps xorg-xinit xorg-twm xorg-xclock --noconfirm"
 
-    arch-chroot /mnt /bin/bash -c "bspwm sxhkd feh htop rofi st-bydarch network-manager-applet kitty papirus-icon-theme alsa-plugins alsa-utils ttf-dejavu ttf-liberation ttf-bitstream-vera wmname rofi ueberzug slock fzf neofetch calcurse bc pcmanfm xarchiver lxappearance leafpad nitrogen pavucontrol sxiv blueberry ffmpeg maim xclip xdotool mpv unclutter dunst ranger ttf-joypixels adobe-source-han-sans-jp-fonts adobe-source-han-serif-jp-fonts awesome-terminal-fonts ttf-font-awesome gtk3-nocsd-git ttf-meslo-nerd-font-powerlevel10k picom-ibhagwan-git polybar-git fzf-extras"
+    arch-chroot /mnt /bin/bash -c "bspwm sxhkd feh htop rofi st-bydarch network-manager-applet kitty papirus-icon-theme alsa-plugins alsa-utils ttf-dejavu ttf-liberation ttf-bitstream-vera wmname rofi ueberzug slock fzf neofetch calcurse bc pcmanfm xarchiver atom nitrogen pavucontrol sxiv blueberry ffmpeg maim xclip xdotool vlc unclutter dunst ranger ttf-joypixels adobe-source-han-sans-jp-fonts adobe-source-han-serif-jp-fonts awesome-terminal-fonts ttf-font-awesome gtk3-nocsd-git ttf-meslo-nerd-font-powerlevel10k picom-ibhagwan-git polybar-git fzf-extras"
+    ;;
 
   3)
     echo "Escritorio : Xfce4"
