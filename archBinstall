@@ -205,8 +205,8 @@ else
 	# free --giga | awk '/^Mem:/{print $2}'
 	swapsize=$(free --giga | awk '/^Mem:/{print $2}')
 	#dd if=/dev/zero of="${disco}" bs=100M count=10 status=progress
-#	sgdisk --zap-all ${disco}
-#	(echo o; echo n; echo p; echo 1; echo ""; echo +100M; echo n; echo p; echo 2; echo ""; echo +${swapsize}G; echo n; echo p; echo 3; echo ""; echo ""; echo t; echo 2; echo 82; echo a; echo 1; echo w; echo q) | fdisk ${disco}
+	sgdisk --zap-all ${disco}
+	(echo o; echo n; echo p; echo 1; echo ""; echo +100M; echo n; echo p; echo 2; echo ""; echo +${swapsize}G; echo n; echo p; echo 3; echo ""; echo ""; echo t; echo 2; echo 82; echo a; echo 1; echo w; echo q) | fdisk ${disco}
 	fdisk -l ${disco} > /tmp/partition 
 	cat /tmp/partition
 	sleep 3
